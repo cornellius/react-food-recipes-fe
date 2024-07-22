@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import RecipesList from './RecipesList'
 import SearchBar from './SearchBar';
+import RecipesPagination from './RecipesPagination';
 
 const Recipes = () => {
     // TODO: 
@@ -12,12 +13,18 @@ const Recipes = () => {
     const [recipes, setRecipes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [totalRecipes, setTotalRecipes] = useState(0);
+    const [perPage, setPerPage] = useState(9);
     const [page, setPage] = useState(1);
     const [searchTerms, setSearchTerms] = useState("");
 
     const updateSearchTerms = (newSearchTerms) => {
       setSearchTerms(newSearchTerms)
       setPage(1);
+    }
+
+    const paginate = (newPage) => {
+      setPage(newPage);
     }
   
     useEffect(() => {
@@ -28,10 +35,16 @@ const Recipes = () => {
       // Fetch data using async/await with the Fetch API
       const fetchUsingAsyncAwaitWithFetchApi = async () => {
         try {
-          console.log(BASE_URL);
-          const response = await fetch(`${BASE_URL}?ingredients=${searchTerms}&page=${page}`, { signal });
+          let apiUrl = `${BASE_URL}?ingredients=${searchTerms}&page=${page}`;
+          const response = await fetch(apiUrl, { 
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            signal });
           const data = await response.json();
-          setRecipes(data);
+          setTotalRecipes(data.results.total_recipes);
+          setRecipes(data.results.recipes);
           setError(null);
         } catch (error) {
           if (error.name === "AbortError") {
@@ -62,7 +75,18 @@ const Recipes = () => {
         <div>
           <h1>Pennylane recipes v0.1</h1>
           <SearchBar searchTerms={searchTerms} updateSearchTerms={updateSearchTerms} />
+          <RecipesPagination 
+              totalRecipes={totalRecipes} 
+              perPage={perPage} 
+              page={page}
+              paginate={paginate} />
           <RecipesList recipes={recipes} />
+          <RecipesPagination 
+              totalRecipes={totalRecipes} 
+              perPage={perPage} 
+              page={page}
+              paginate={paginate} />
+          <div className='margin-bottom' />
         </div>
       );
     }    

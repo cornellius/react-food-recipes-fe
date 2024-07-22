@@ -1,11 +1,10 @@
 import { Card } from 'semantic-ui-react';
 
 const RecipesList = ({ recipes }) => {
-    console.log(recipes);
     if (recipes.length === 0) {
         return (
             <div style={{ padding: 10 }}>
-                <i class="heartbeat icon"></i><p>No recipes found based on the ingredients search criteria!</p>
+                <i className="heartbeat icon"></i><p>No recipes found based on the ingredients search criteria!</p>
             </div>
         );
     }else {
@@ -21,18 +20,18 @@ const RecipesList = ({ recipes }) => {
                                         <div className="ui list">
                                             {item.ingredients.map(function(ingredient, index){
                                                 return (
-                                                    <div className="item">
+                                                    <div key={index} className="item">
                                                         <i className="utensils icon"></i>
-                                                        <div class="content">
-                                                            <div class="description">{ingredient}</div>
+                                                        <div className="content">
+                                                            <div className="description">{ingredient}</div>
                                                         </div>
                                                     </div>
                                                 );
                                             })} 
                                         </div>
                                         <hr/>
-                                        <p><strong>Author: {item.author.name}</strong></p>
-                                        <p><strong>Category: {item.category.name}</strong></p>
+                                        <p><strong>Author: {item.author?.name}</strong></p>
+                                        <p><strong>Category: {item.category?.name}</strong></p>
                                         <p><strong>Ratings: {item.ratings}</strong></p>
                                     </Card.Description>
                                 </Card.Content>
@@ -41,9 +40,8 @@ const RecipesList = ({ recipes }) => {
                     })}
                 </Card.Group>
             </div>
-            );
+        );
     }
-
 };
 
 export default RecipesList;
