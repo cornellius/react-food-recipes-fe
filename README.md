@@ -1,70 +1,25 @@
-# Getting Started with Create React App
+## Goal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> **It's dinner time! Create a Rails + React.js application that helps users find the most relevant recipes that they can prepare with the ingredients that they have at home**
 
-## Available Scripts
+## The prototype
 
-In the project directory, you can run:
+Prototype in this case means:
 
-### `npm start`
+- something usable, yet as simple as possible
+- with Rails, SQL database, React.js on the front-end
+- UI / design is not important
+- Not adding features which are outside the basic scope of the problem
+- Mainly focus on code quality & user experience, not UX/UI polishment
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Solution & general notes
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Some context about me: my professional experince as a developer spans between 2000-2016, the main programming languages during that time were Python, PHP, javascript (node, react). Later on I focused on leadership positions (Head of development, CTO) and whereas I continued coding until ~2021, it was in a much reduced way. It has been great to get to coding an integral solution (infra, BE, FE) again :-) 
+- This is my 2nd foray into Rails recently, which I have really enjoyed working with because of its simplicity and user-friendliness. I have tried to code a streamlined and simple solution, taking into account performance (avoiding N+1 queries, etc.). I am sure there may be better ways to implement things in Rails, but these have worked for me very nicely. As Rails is still very much active in the startup side of things, I'll keep learning it. 
+- I have chosen PostgreSQL as a relational database, and the `jsonb` type column to store the recipes after the importation. Main reason for jsonb would be designing this solution as a prototype that has some room for growth, and maybe rethink the database model in the future if some performance and/or design complications arise.
+- With that spirit I have decided to create the Author and Category entities and populate them when importing. This way, authentication and user management could be added relatively easily. Also, during the initial importation, I have added some logic to create memory lists for authors and categories, to avoid querying the database unnecessarily.
+- In general I haven't found major complications while implementing this solution with Rails, some minor difficulties that I can remember have been solving CORS bewteen Rails & React in a local Docker setup, and authentication in the controllers, solved via `protect_from_forgery with: :null_session`.
+- I have created a simple React app on the front-end, using simple React state management, API consumption via fetch() hook, and components.
+- I have dockerized the whole solutions as I would normally do for any development environment. In terms of React, two instances of it can be triggered: 1. via `npm run start` (http://localhost:3001), and 2. via `docker build -t frontend:latest .` & `docker compose up` (http://localhost)
+- I have not implemented unit testing nor in Rails or React for this exercise as requested, albeit this is something I would totally do on a real scenario.
+- As mentioned, I have really enjoyed implementing this solution. Thanks for the opportunity!
